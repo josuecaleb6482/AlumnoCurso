@@ -1,0 +1,34 @@
+﻿@model Model.Adjunto
+
+@{ 
+    List<Model.Adjunto> adjunto = ViewBag.Adjuntos;
+}
+
+@using (Html.BeginForm("GuardarAdjunto", "Home", FormMethod.Post, new { @id = "frm-adjunto" }))
+    {
+        <h4>Alumnos</h4>
+        <hr />
+        @Html.HiddenFor(x => x.idAlumno, new { value="idAlumno" })
+        <lable>Seleccione un documento a Subir</lable>
+        <div class="form-group">
+            <input type="file" name="Archivo" />
+        </div>
+
+        <div>
+            <button data-ajax="true" data-confirm="Desa subir este archivo?" type="submit" value="GuardarAdjunto" class="btn btn-primary col-md-2">Guardar</button>
+        </div>
+        <hr />
+    }
+
+@* Lista de Cursos Seleccionados *@
+
+<ul class="list-group">
+    @foreach (var m in adjunto)
+    {
+        <li class="list-group-item">
+            <a href="~/Uploads/@m.Archivo" target="_blank">
+                @m.Archivo
+            </a>
+        </li>
+    }
+</ul>

@@ -1,0 +1,34 @@
+﻿@model List<Model.Alumnos>
+@{
+    ViewBag.Title = "Index";
+    List<Model.Alumnos> alumnos = ViewBag.Alumnos;
+}
+<h2 class="h2">
+    Index
+</h2>
+<table class="table-responsive">
+    <thead>
+        <tr>
+            <th style="width:200px">Nombre</th>
+            <th style="width:100px">Sexo</th>
+            <th style="width:200px">Fecha de Nacimiento</th>
+            <th style="width:200px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@(m.Nombre + " "+ m.Apellido)</td>
+                <td>@(m.Sexo=="M"?"Hombre":"Mujer")</td>
+                <td>@(m.FechaNacimiento)</td>
+                <th>
+                    <a class="btn btn-sm btn-primary" href="~/Home/ver/@m.idAlumno">Ver</a>
+                    <a class="btn btn-sm btn-secondary" href="~/Home/Crud/@m.idAlumno">Editar</a>
+                    <a onclick="return confirm('Desea eliminar el registro?')" class="btn btn-sm btn-danger" href="~/Home/Eliminar/@m.idAlumno">Eliminar</a>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+

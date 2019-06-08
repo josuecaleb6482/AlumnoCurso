@@ -1,0 +1,66 @@
+﻿@model Model.Alumnos
+
+@{
+    ViewBag.Title = Model.Nombre + " " + Model.Apellido;
+}
+
+<ol class="breadcrumb">
+    <li><a href="~/">Alumno</a>&nbsp</li>
+    <li class="active">@(" " + Model.Nombre + " " + Model.Apellido)</li>
+</ol>
+<div class="card">
+    <div class="card-header">Información del Alumno</div>
+    <div class="card-body">
+        @using (Html.BeginForm("Guardar", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(x => x.idAlumno)
+            <div class="form-group row">
+                @Html.LabelFor(x => x.Nombre, new { @class = "col-sm-2 col-form-label" })
+                @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control col-sm-4" })
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.Apellido, new { @class = "col-sm-2 col-form-label" })
+                @Html.TextBoxFor(x => x.Apellido, new { @class = "form-control col-sm-4" })
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.Sexo, new { @class = "col-sm-2 col-form-label" })
+                @Html.TextBoxFor(x => x.Sexo, new { @class = "form-control col-sm-4" })
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.FechaNacimiento, new { @class = "col-sm-2 col-form-label" })
+                @Html.TextBoxFor(x => x.FechaNacimiento, new { @class = "form-control col-sm-4" })
+            </div>
+        }
+    </div>
+    @if (Model.AlumnoCurso.Count > 0)
+    {
+
+        <a class="btn btn-secondary col-4" data-toggle="collapse" href="#CursosAsignados" role="button" aria-expanded="false" aria-controls="CursosAsignados">Cursos Inscritos</a>
+        <div class="collapse" id="CursosAsignados">
+            <div class="card-body">
+                <table class="table table-bordered w-50 table-hover align-items-sm-center" id="CursosAsignados">
+                    <thead class="alert-primary">
+                        <tr>
+                            <th class="w-25">Curso</th>
+                            <th class="w-25">Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model.AlumnoCurso)
+                        {
+                            <tr>
+                                <td>@c.Curso.Nombre</td>
+                                <td>@c.Nota</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div><p>No hay cursos asignados</p></div>
+    }
+
+</div>

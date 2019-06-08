@@ -1,0 +1,108 @@
+﻿@model Model.Alumnos
+
+@{
+    ViewBag.Title = "Crud";
+}
+
+<h2>Crud</h2>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="alumno-tab" data-toggle="tab" href="#alumno" role="tab" aria-controls="alumno" aria-selected="true">Alumno</a>
+    </li>
+    @if (Model.idAlumno > 0)
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="cursos-tab" data-toggle="tab" href="#cursos" role="tab" aria-controls="cursos" aria-selected="false">Cursos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="adjuntos-tab" data-toggle="tab" href="#adjuntos" role="tab" aria-controls="adjuntos" aria-selected="false">Adjuntos</a>
+        </li>
+    }
+
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="alumno" role="tabpanel" aria-labelledby="alumno-tab">
+        @using (Html.BeginForm("Guardar", "Home", FormMethod.Post, new { id = "frm-alumno" }))
+        {
+
+            <!--@Html.AntiForgeryToken()-->
+
+            <div class="form-horizontal">
+                <h4>Alumnos</h4>
+                <hr />
+                <div class="form-group">
+                    @Html.HiddenFor(model => model.idAlumno, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sexo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button data-ajax="true" data-confirm="Desa enviar el formulario?" type="submit" value="Create" class="btn btn-primary col-md-2">Guardar</button>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+    @if (Model.idAlumno > 0)
+    {
+        <div class="tab-pane fade" id="cursos" role="tabpanel" aria-labelledby="cursos-tab"></div>
+        <div class="tab-pane fade" id="adjuntos" role="tabpanel" aria-labelledby="adjuntos-tab"></div>
+    }
+
+
+</div>
+<script>
+    $(document).ready(function () {
+        @if(Model.idAlumno > 0)
+        {
+            <text>
+                CargarCursos();
+            </text>
+        }
+    })
+    $(document).ready(function CargarCursos() {
+        $("#cursos").load('@Url.Content("~/home/curso/?id="+Model.idAlumno)')
+    });
+    $(document).ready(function CargarAdjuntos() {
+        $("#adjuntos").load('@Url.Content("~/home/adjuntos/?id="+Model.idAlumno)')
+    })
+    $(document).ready(function () {
+        $.validator.unobstrusive.parse("frm-alumno");
+    })
+</script>

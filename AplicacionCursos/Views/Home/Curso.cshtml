@@ -1,0 +1,58 @@
+﻿@model Model.AlumnoCurso
+
+@{
+    List<Model.Curso> cursos = ViewBag.Cursos;
+    List<Model.AlumnoCurso> CursosAsignados = ViewBag.CursosAsignados;
+}
+
+@if (cursos.Count > 0)
+{
+    using (Html.BeginForm("GuardarCursos", "Home", FormMethod.Post, new { id = "frm-curso" }))
+    {
+
+
+        <h4>Alumnos</h4>
+        <hr />
+        @Html.HiddenFor(x => x.idAlumno)
+
+        <lable>Seleccione un curso</lable>
+        <div class="form-group">
+            <select class="form-control" name="idCurso">
+                @foreach (var c in cursos)
+                {
+                    <option name="idCurso" value="@c.idCurso">@c.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.Nota, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nota, "Coloque una nota entre 1 y 100", new { @class = "text-danger" })
+        </div>
+
+        <br />
+        <div>
+            <button data-ajax="true" data-confirm="Desa enviar el formulario?" type="submit" value="GuardarCurso" class="btn btn-primary col-md-2">Guardar</button>
+        </div>
+        <hr />
+    }
+}
+
+
+@* Lista de Cursos Seleccionados *@
+<div>
+    <ul class="list-group">
+        @foreach (var m in CursosAsignados)
+        {
+        <li class="list-group-item">
+            @m.Curso.Nombre <span class="badge badge-primary badge-pill">@m.Nota</span>
+            @Html.ActionLink("Eliminar", "EliminarCurso", new { id = @m.idAlumnoCurso, idAlumnoes = @m.idAlumno }, new { @class = "btn btn-sm btn-danger", @style = "float: right" })
+        </li>
+        }
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $.validator.unobstrusive.parse("frm-curso");
+    })
+</script>
